@@ -4,10 +4,6 @@
 
 //require http module
 var http = require('http');
-//require filesystem module
-//var fs = require('fs');
-//require url parser module
-//var url = require('url');
 //require socket.io module
 var socket = require('socket.io');
 //require chalk module
@@ -20,16 +16,19 @@ console.log('Server Started!!')
 http = require('http').createServer().listen(8000);
 io = require('socket.io').listen(http);
 
+var client = [];
+var clientCount = 0;
 
 io.on('connection', (socket) => {
 
-    console.log('made socket connection', socket.id);
+	client[clientCount] = ["Client"+clientCount, socket.id]
+    console.log("New Socket Connection: "+client[clientCount][0]+" ID: "+socket.id);
+    clientCount += 1;
 
     // Handle chat event
-    socket.on('click', function(data){
+    socket.on('draw', function(data){
         // console.log(data);
-        io.sockets.emit('click', data);
-        console.log("click");
+        io.sockets.emit('draw', data);
     });
 
 });

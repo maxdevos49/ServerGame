@@ -10,35 +10,28 @@ function init(){
 	//const io = require('socket.io');
 	var socket = io.connect('http://localhost:8000');
 
-	color = ["red","orange","yellow","green","blue","purple"];
-	activeColor = 1;
+	// //add event listeners
+	// canvasFrame.addEventListener('mousemove', function(e){
+	// 	var x = e.clientX;
+	// 	var y = e.clientY;
 
-	canvas.fillStyle = color[1];
+	// 	socket.emit('draw',{
+	// 		xPos: x,
+ //    		yPos: y,
+ //    		colorChoice: color[activeColor]
+	// 	});
+	// });
 
-	document.addEventListener('keypress',function(){
-		if (activeColor >= 5){
-			activeColor = 0;
-		}else{
-			activeColor +=1;
-		}
-	});
+	// socket.on('draw', function(data){
+	// 	canvas.fillStyle = data.colorChoice;
+	// 	canvas.fillRect(data.xPos,data.yPos,10,10);
+	// });
 
-	//add event listeners
-	canvasFrame.addEventListener('click', function(e){
-		var x = e.clientX;
-		var y = e.clientY;
+	setInterval(1000/60, updateLoop);
 
-		socket.emit('click',{
-			xPos: x,
-    		yPos: y,
-    		colorChoice: color[activeColor]
-		});
-	});
+}
 
-	socket.on('click', function(data){
-		canvas.fillStyle = data.colorChoice;
-		canvas.fillRect(data.xPos,data.yPos,10,10);
-	});
-
+function updateLoop{
+	
 }
 
