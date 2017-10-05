@@ -1,0 +1,11 @@
+/*
+project ledLight
+Max DeVos
+October 3, 2017
+*/
+
+body,html {
+	background-color: grey;
+	margin: 0;
+	padding: 0;
+}

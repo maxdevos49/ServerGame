@@ -1,0 +1,17 @@
+{
+  "name": "ElectronApp",
+  "version": "1.0.0",
+  "description": "Socket.io implementation with Electron",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron main.js"
+  },
+  "author": "Max DeVos",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^1.7.8"
+  },
+  "dependencies": {
+    "socket.io": "^2.0.3"
+  }
+}
