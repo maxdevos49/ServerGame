@@ -5,8 +5,6 @@
 
 //require the electron components
 const electron = require('electron');
-//require the socket.io components
-const socket = require('socket.io');
 
 //make it easier to access certain components of electron
 const {app, BrowserWindow} = electron;
@@ -15,11 +13,11 @@ const {app, BrowserWindow} = electron;
 app.on('ready', function() {
 
 	//init a window
-	let win = new BrowserWindow({width: 700, height: 526});
+	let win = new BrowserWindow({width: 500, height: 626});
 	//fill it with content
 	win.loadURL(`http://localhost:8000`);
 	win.loadURL(`file://${__dirname}/index.html`);
-	win.webContents.openDevTools();
+	//win.webContents.openDevTools();
 
 });
 

@@ -25,10 +25,10 @@ io.on('connection', (socket) => {
     console.log("New Socket Connection: "+client[clientCount][0]+" ID: "+socket.id);
     clientCount += 1;
 
-    // Handle chat event
-    socket.on('draw', function(data){
+    // // Handle play eveny
+    socket.on('click', function(data){
         // console.log(data);
-        io.sockets.emit('draw', data);
+        io.sockets.emit('click', data);
     });
 
 });
