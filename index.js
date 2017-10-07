@@ -13,7 +13,10 @@ function init(){
 	var socket = io.connect(Hostcode);
 
 
-
+	//add some elements
+	button = document.getElementById("sendButt");
+	message = document.getElementById("chatInput");
+	output = document.getElementById("chat");
 
 	//delete later
 	player1 = "player1";
@@ -32,7 +35,7 @@ function init(){
 		var gapx = 0;
 		for (var ii = 0; ii <= 2; ii++){//print row
 
-			markLoc[markNum] = [(ii * 150) + gapx,(i * 150) + gapy + 100,150,150,"white","False",0,""];
+			markLoc[markNum] = [(ii * 150) + gapx,(i * 150) + gapy + 100,150,150,"grey","False",0,""];
 			gapx += 25;
 			console.log(markLoc[markNum][6]);
 			markNum += 1;
@@ -42,10 +45,10 @@ function init(){
 	}
 
 	crossFrame = [];
-	crossFrame[0] = [150,100,25,500,"black"];
-	crossFrame[1] = [325,100,25,500,"black"];
-	crossFrame[2] = [0,250,500,25,"black"];
-	crossFrame[3] = [0,425,500,25,"black"];
+	crossFrame[0] = [150,100,25,500,"#f9d08e"];
+	crossFrame[1] = [325,100,25,500,"#f9d08e"];
+	crossFrame[2] = [0,250,500,25,"#f9d08e"];
+	crossFrame[3] = [0,425,500,25,"#f9d08e"];
 
 	canvasFrame.addEventListener('mousemove', function(e){
 		x = e.clientX;
@@ -74,24 +77,43 @@ function init(){
 
 	});
 
-	socket.on("click", function(data){
-		markLoc[data.markLocation][7] = "x";
+	socket.on("clickReply", function(data){
+		console.log("reply made it");
+		markLoc[data.markLocation][7] = data.markType;
+	});
+
+	button.addEventListener('click', function(){
+
+		socket.emit("chatMessage",{
+			message: message.value,
+			sender: "player1"
+		});
+
+		message.value = "";
+
+	});
+
+	socket.on("chatMessage", function(data){
+
+		output.innerHTML += "<div><h3>"+data.sender+"</h3><p>"+data.message+"</p></div>"
+		output.scrollTop = output.scrollHeight;
 	});
 
 	setInterval(updateLoop, 1000/60);
 
 }
 
+
 function updateLoop(){
 
-	canvas.fillStyle = "grey";
+	canvas.fillStyle = "white";
 	canvas.fillRect(0,0,500,600);
 
 	//info bar setup
-	canvas.fillStyle = "tan";
+	canvas.fillStyle = "#5f98f4";
 	canvas.fillRect(0,0,500,100);
 
-	canvas.fillStyle = "brown";
+	canvas.fillStyle = "white";
 	canvas.font = "30px Arial";
 	canvas.fillText("Tic Tac Toe", 175,30)
 
@@ -107,7 +129,7 @@ function updateLoop(){
 	canvas.fillRect(375,10,100,40);
 
 	canvas.font = "30px Arial";
-	canvas.fillStyle = "black";
+	canvas.fillStyle = "white";
 	canvas.fillText("Reset",385,40);
 
 	//tic tac toe bar grid

@@ -2,22 +2,23 @@
 //Max DeVos
 //October 3, 2017
 
-//require http module
-var http = require('http');
-//require socket.io module
-var socket = require('socket.io');
-//require chalk module
-//var chalk = require('chalk');
+console.log('Server Started!!');
 
-console.log('Server Started!!')
-
+socket = require('socket.io');
 
 // Socket setup & pass server
 http = require('http').createServer().listen(8000);
 io = require('socket.io').listen(http);
 
+//set up some varibles for identifying different clients
 var client = [];
 var clientCount = 0;
+
+//set up some game logic varibles
+player1 = "X";
+player2 = "O";
+
+playerTurn = "X";
 
 io.on('connection', (socket) => {
 
@@ -25,10 +26,31 @@ io.on('connection', (socket) => {
     console.log("New Socket Connection: "+client[clientCount][0]+" ID: "+socket.id);
     clientCount += 1;
 
-    // // Handle play eveny
+  	// Handle play event
     socket.on('click', function(data){
-        // console.log(data);
-        io.sockets.emit('click', data);
+        
+    	if (playerTurn == "X"){
+    		io.sockets.emit("clickReply",{
+    			markType: "X",
+    			markLocation: data.markLocation
+       		});
+       		playerTurn = "O";
+    	}else if(playerTurn == "O"){
+    		io.sockets.emit("clickReply",{
+    			markType: "O",
+    			markLocation: data.markLocation
+    		});
+    		playerTurn = "X";
+    	}
+
+    });
+
+    socket.on("chatMessage", function(data){
+    	io.sockets.emit("chatMessage",{
+    		message: data.message,
+    		sender: data.sender
+    	})
     });
 
 });
+
