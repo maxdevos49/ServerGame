@@ -8,6 +8,7 @@ October 3, 2017
 <head>
 	<title>Project LedLight</title>
 	<link rel="stylesheet" type="text/css" href="./index.css">
+	<link href='https://fonts.googleapis.com/css?family=Aldrich' rel='stylesheet'>
 	<script type="text/javascript" src="./index.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.js"></script>
 
@@ -19,9 +20,10 @@ October 3, 2017
 	<div class="chatWindow">
 		<div id="chatHeader">
 			<h1>Chat</h1>
+			<input id="handle" type="text" value="user">
 		</div>
 		<div id="chat">
-			
+			<div id="filler"></div>
 		</div>
 		<div id="inputSection">
 			<textarea id="chatInput" placeholder="Say something"></textarea>

@@ -17,7 +17,7 @@ app.on('ready', function() {
 	//fill it with content
 	win.loadURL(`http://localhost:8000`);
 	win.loadURL(`file://${__dirname}/index.html`);
-	//win.webContents.openDevTools();
+	//win.webContents.openDevTols();
 
 });
 

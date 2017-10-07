@@ -4,13 +4,8 @@ Max DeVos
 October 3, 2017
 */
 
-body,html {
-	background-color: grey;
-	margin: 0;
-	padding: 0;
-}
-
-canvas {
+*{
+	font-family: "Aldrich";
 	margin: 0;
 	padding: 0;
 }
@@ -19,28 +14,33 @@ canvas {
 	width: 300px;
 	height: 600px;
 	float: right;
-	margin: 0;
-	padding: 0;
 	background-color: white;
+
 }
 
-#chatHeader,h1{
+#chatHeader{
 	text-align: center;
 	height: 80px;
 	background-color: #5f98f4;
-	margin: 0;
-	padding: 10px 0 0 0;
 	color: white;
-	z-index: 2;
+	padding: 20px 0 0 0;
+}
+
+#filler{
+	height: 365px;
 }
 
 #chat{
-	height: 383px;
-	margin: 0;
-	padding: 0;
+	height: 375px;
 	overflow: scroll;
-	/*background-color: #dbd7d0;*/
-	z-index: 1;
+}
+
+.message{
+	padding: 0 20px 0 20px;
+}
+
+#player1{
+	background-color: #f2f1ed;
 }
 
 button{
@@ -52,14 +52,19 @@ button{
 	font-size: 40px;
 	color: white;
 }
+
+button:hover{
+	opacity: 0.8;
+}
+
 textarea{
 	display: block;
-	width: 298px;
-	height: 50px;
+	width: 260px;
+	height: 40px;
 	font-size: 20px;
-	margin: 0;
-	padding: 0;
-	background-color: #dbd7d0;
+	padding: 10px 20px 0 20px;
+	background-color: #c6c6c2;
+	border: none;
 }
 
 
