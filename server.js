@@ -6,25 +6,47 @@ console.log('Server Started!!');
 
 socket = require('socket.io');
 
+playerTurn = "X";
+
+game = 0;
+clientID = 0;
+markTypeInit = "X";
+currentTurn = "True"
+
+
 // Socket setup & pass server
 http = require('http').createServer().listen(8000);
 io = require('socket.io').listen(http);
 
-//set up some varibles for identifying different clients
-var client = [];
-var clientCount = 0;
+//start socket operations
+io.on('connection', function(socket){
 
-//set up some game logic varibles
-player1 = "X";
-player2 = "O";
+	if (clientID <= 1){
+		socket.emit("clientID", {
+			id: clientID,
+			socketID: socket.id,
+			game: game,
+			markType: markTypeInit,
+			defaultHandle: "User" + clientID,
+			currentTurn: currentTurn
+		});
 
-playerTurn = "X";
+		console.log("New Client Connected!\nID: " + clientID + "\nsocketID: " + socket.id + "\nDefault Handle: User" + clientID);
 
-io.on('connection', (socket) => {
+		clientID += 1;
+		if (markTypeInit == "X"){
+			markTypeInit = "O";
+			currentTurn = "False";
+		}else{
+			markTypeInit = "X";
+			currentTurn = "True";
+		}
+	}else{
+	
+	}
 
-	client[clientCount] = ["Client"+clientCount, socket.id]
-    console.log("New Socket Connection: "+client[clientCount][0]+" ID: "+socket.id);
-    clientCount += 1;
+
+
 
   	// Handle play event
     socket.on('click', function(data){
@@ -45,11 +67,12 @@ io.on('connection', (socket) => {
 
     });
 
+    //handle chat messages
     socket.on("chatMessage", function(data){
     	io.sockets.emit("chatMessage",{
     		message: data.message,
     		sender: data.sender
-    	})
+    	});
     });
 
 });

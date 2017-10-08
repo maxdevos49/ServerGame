@@ -3,47 +3,43 @@
 //October 3, 2017
 
 function init(){
-	console.log("Im Alive!");
-	//get the canvas frame for use
+
+	//link some elements for use
 	canvasFrame = document.getElementById("canvasFrame");
-	canvas = canvasFrame.getContext("2d");
-	
-	Hostcode = "http://localhost:8000";
-	//connect to the server
-	var socket = io.connect(Hostcode);
-
-
-	//add some elements
 	button = document.getElementById("sendButt");
 	message = document.getElementById("chatInput");
 	output = document.getElementById("chat");
 	handle = document.getElementById("handle");
 
+	canvas = canvasFrame.getContext("2d");
+
+	//connect to the server	
+	Hostcode = "http://localhost:8000";
+	socket = io.connect(Hostcode);
+
+	//logic varibles
 	player2 = "player2";
 	
 	turnIndicator1 = "<<<";
 	turnIndicator2 = "";
-	// playerTurn = "O";
 
-	// validTurn = "false";
 
+	//button varibles
 	resetButt = [375,10,100,40,"Reset"];
 
-	//initilize a bunch of varibles
+	//initilize 9 boxe that will hold the marks
 	markLoc = [];
+	markNum = 0;
+	gapy = 0;//use this to properly place squares on y access
 
-	var markNum = 0;
-	//use a variable to place boxes correctly
-	var gapy = 0;
 	for (var i = 0; i <= 2; i++){//increment row
-		var gapx = 0;
+		gapx = 0;//use this to properly place squares on x access
 		for (var ii = 0; ii <= 2; ii++){//print row
-
+			//fill mark array with values
 			markLoc[markNum] = [(ii * 150) + gapx,(i * 150) + gapy + 100,150,150,"#f2f1ed","False",0,""];
 			gapx += 25;
 			console.log(markLoc[markNum][6]);
 			markNum += 1;
-
 		}
 		gapy += 25;
 	}
@@ -54,25 +50,32 @@ function init(){
 	crossFrame[2] = [0,250,500,25,"#f9d08e"];
 	crossFrame[3] = [0,425,500,25,"#f9d08e"];
 
+
+
+	//handle the mouse moving to 
 	canvasFrame.addEventListener('mousemove', function(e){
 		x = e.clientX;
 		y = e.clientY;
-			//(x0,y1,w2,h3)
-		for (var i = 0; i <= 8; i++){//increment row
+		
+		for (var i = 0; i <= 8; i++){//increment mark location to be checked
+			//handle the 9 marc locations
 			if(x > markLoc[i][0] && x < (markLoc[i][0] + markLoc[i][2]) && y > markLoc[i][1] && y < (markLoc[i][1] + markLoc[i][3])){
 				markLoc[i][6] = 0.9;
 			}else{
 				markLoc[i][6] = 0;
 			}
-
-			if (x > resetButt[0] && x < (resetButt[0] + resetButt[2]) && y > resetButt[1] && y < (resetButt[1] + resetButt[3])){
-				resetButt[5] = 0.5;
-			}else{
-				resetButt[5] = 1;
-			}
 		}
+
+		//handle highlighting reset button
+		if (x > resetButt[0] && x < (resetButt[0] + resetButt[2]) && y > resetButt[1] && y < (resetButt[1] + resetButt[3])){
+			resetButt[5] = 0.5;
+		}else{
+			resetButt[5] = 1;
+		}
+		
 	});
 
+	//handle the mouse leaving the canvas to properly unhiglight the squares
 	canvasFrame.addEventListener('mouseleave', function(){
 
 		for (var i = 0; i <= 8; i++){//increment row
@@ -81,33 +84,32 @@ function init(){
 
 	})
 
+	//handle outgoing game play request
 	canvasFrame.addEventListener('mousedown', function(e){
 		x = e.clientX;
 		y = e.clientY;
 
-		for (var i = 0; i <= 8; i++){//increment row
-			if(x > markLoc[i][0] && x < (markLoc[i][0] + markLoc[i][2]) && y > markLoc[i][1] && y < (markLoc[i][1] + markLoc[i][3])){
+		if(myclient.currentTurn == "True"){
+			for (var i = 0; i <= 8; i++){//icrement mark location being checked for a click
+				if(x > markLoc[i][0] && x < (markLoc[i][0] + markLoc[i][2]) && y > markLoc[i][1] && y < (markLoc[i][1] + markLoc[i][3])){
 
-				socket.emit("click",{
-					markLocation: i
-				});
+					//tell server that the client clicked
+					socket.emit("click",{
+						markLocation: i
+					});
 
+				}
 			}
 		}
 
+		//handle reset button getting clicked
 		if (x > resetButt[0] && x < (resetButt[0] + resetButt[2]) && y > resetButt[1] && y < (resetButt[1] + resetButt[3])){
 			resetGame();
 		}
 
 	});
 
-
-
-	socket.on("clickReply", function(data){
-		console.log("reply made it");
-		markLoc[data.markLocation][7] = data.markType;
-	});
-
+	//handle outgoing chat messages
 	button.addEventListener('click', function(){
 
 		if (message.value != ""){
@@ -121,6 +123,25 @@ function init(){
 
 	});
 
+	//////////////////////process all server replys\\\\\\\\\\\\\\\\\\\\\\\\
+
+
+	socket.on("clientID", function(data){
+		myclient = {
+			id: data.id,
+			socketID: data.socketID,
+			game: data.game,
+			markType: data.markType,
+			defaultHandle: data.defaultHandle,
+			currentTurn: data.currentTurn
+		}
+
+		handle.value = myclient.defaultHandle;
+		console.log(myclient.defaultHandle);
+	})
+
+
+	//handle incomming chat messages
 	socket.on("chatMessage", function(data){
 
 		if (data.sender == handle.value){
@@ -133,63 +154,24 @@ function init(){
 		output.scrollTop = output.scrollHeight;
 	});
 
+	//handle changing the mark
+	socket.on("clickReply", function(data){
+		console.log("checkpoint 2");
+		if(myclient.currentTurn == "False"){
+			myclient.currentTurn = "True";
+		}else{
+			myclient.currentTurn = "False";
+		}
+
+		markLoc[data.markLocation][7] = data.markType;
+	});
+
 	setInterval(updateLoop, 1000/60);
 
 }
 
-function resetGame(){
-	
-}
 
 
-function updateLoop(){
-
-	canvas.fillStyle = "white";
-	canvas.fillRect(0,0,500,600);
-
-	//info bar setup
-	canvas.fillStyle = "#5f98f4";
-	canvas.fillRect(0,0,500,100);
-
-	canvas.fillStyle = "white";
-	canvas.font = "55px Aldrich";
-	canvas.fillText("Tic Tac Toe", 30,50)
-
-	canvas.font = "20px Aldrich";
-	canvas.fillText("X: " + handle.value + "  " + turnIndicator1, 30, 85);
-
-	canvas.fillText("O: " + player2 + "  " + turnIndicator2, 200, 85);
-
-	canvas.save();
-	canvas.globalAlpha = resetButt[5];
-	canvas.fillStyle = "red";
-	canvas.fillRect(resetButt[0],resetButt[1],resetButt[2],resetButt[3]);
-
-	canvas.font = "30px Aldrich";
-	canvas.fillStyle = "white";
-	canvas.fillText(resetButt[4],resetButt[0] + 5,resetButt[1] + 30);
-	canvas.restore();
-
-	//tic tac toe bar grid
-	var rect = [25,500];
-
-	//letter squares
-	for (var i = 0; i <= 8; i++){//increment row
-		canvas.save();
-		canvas.fillStyle = markLoc[i][4];
-		canvas.globalAlpha = markLoc[i][6];
-		canvas.fillRect(markLoc[i][0],markLoc[i][1],markLoc[i][2],markLoc[i][3]);
-		canvas.restore();
-		canvas.font = "100px Aldrich";
-		canvas.fillStyle = "black";
-		canvas.fillText(markLoc[i][7],markLoc[i][0] + 39, markLoc[i][1] + 110);
-	}
-
-	for (var i = 0; i <= 3; i++){
-		canvas.fillStyle = crossFrame[i][4];
-		canvas.fillRect(crossFrame[i][0],crossFrame[i][1],crossFrame[i][2],crossFrame[i][3]);
-	}
 
 
-}
 
