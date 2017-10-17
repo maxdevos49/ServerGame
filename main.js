@@ -9,7 +9,7 @@ const electron = require('electron');
 //make it easier to access certain components of electron
 const {app, BrowserWindow} = electron;
 
-//do something when the program is finally compiled
+//do something when the program is finally compiled/ready
 app.on('ready', function() {
 
 	//init a window
