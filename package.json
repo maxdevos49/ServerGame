@@ -1,18 +1,16 @@
 {
-  "name": "ElectronApp",
+  "name": "tic-tac-toe",
   "version": "1.0.0",
-  "description": "Socket.io implementation with Electron",
+  "description": "Multiplayer tic tac toe using socket.io and electron",
   "main": "main.js",
   "scripts": {
     "start": "electron main.js"
   },
   "author": "Max DeVos",
   "license": "ISC",
-  "devDependencies": {
-    "electron": "^1.7.8"
-  },
   "dependencies": {
-    "chalk": "^2.1.0",
-    "socket.io": "^2.0.3"
+    "chalk": "^5.0.1",
+    "electron": "^18.2.4",
+    "socket.io": "^4.5.1"
   }
 }

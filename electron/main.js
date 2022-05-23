@@ -1,7 +1,8 @@
-//project ledLight
-//Max DeVos
-//October 3, 2017
-
+/**
+ * Project  codename ledLight
+ * @author Max DeVos
+ * @since October 3, 2017
+ */
 
 //require the electron components
 const electron = require('electron');

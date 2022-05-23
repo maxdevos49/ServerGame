@@ -45,6 +45,4 @@ function updateLoop(){
 		canvas.fillStyle = crossFrame[i][4];
 		canvas.fillRect(crossFrame[i][0],crossFrame[i][1],crossFrame[i][2],crossFrame[i][3]);
 	}
-
-	console.log(myclient.currentTurn);
 }
