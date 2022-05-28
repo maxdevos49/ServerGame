@@ -1,42 +1,44 @@
+"use strict";
 /**
  * Project codename ledLight
  * @author Max DeVos
  * @since October 3, 2017
  */
 
+document.addEventListener("DOMContentLoaded", main);
 
-function init() {
+function main() {
 
 	//link some elements for use
-	canvasFrame = document.getElementById("canvasFrame");
-	button = document.getElementById("sendButt");
-	message = document.getElementById("chatInput");
-	output = document.getElementById("chat");
-	handle = document.getElementById("handle");
+	const canvasFrame = document.getElementById("canvasFrame");
+	const button = document.getElementById("sendButt");
+	const message = document.getElementById("chatInput");
+	const output = document.getElementById("chat");
+	const handle = document.getElementById("handle");
 
-	canvas = canvasFrame.getContext("2d");
+	const canvas = canvasFrame.getContext("2d");
 
 	//connect to the server	
-	Hostcode = "http://localhost:8000";
-	socket = io.connect(Hostcode);
+	const hostcode = "http://localhost:8000";
+	const socket = io.connect(hostcode);
 
-	//logic varibles
-	player2 = "player2";
+	// //logic varibles
+	// const player2 = "player2";
 
-	turnIndicator1 = "<<<";
-	turnIndicator2 = "";
+	// const turnIndicator1 = "<<<";
+	// const turnIndicator2 = "";
 
 
 	//button varibles
-	resetButt = [375, 10, 100, 40, "Reset"];
+	const resetButt = [375, 10, 100, 40, "Reset"];
 
 	//initilize 9 boxe that will hold the marks
-	markLoc = [];
-	markNum = 0;
-	gapy = 0;//use this to properly place squares on y access
+	const markLoc = [];
+	let markNum = 0;
+	let gapy = 0;//use this to properly place squares on y access
 
 	for (var i = 0; i <= 2; i++) {//increment row
-		gapx = 0;//use this to properly place squares on x access
+		let gapx = 0;//use this to properly place squares on x access
 		for (var ii = 0; ii <= 2; ii++) {//print row
 			//fill mark array with values
 			markLoc[markNum] = [(ii * 150) + gapx, (i * 150) + gapy + 100, 150, 150, "#f2f1ed", "False", 0, ""];
@@ -47,7 +49,7 @@ function init() {
 		gapy += 25;
 	}
 
-	crossFrame = [];
+	const crossFrame = [];
 	crossFrame[0] = [150, 100, 25, 500, "#f9d08e"];
 	crossFrame[1] = [325, 100, 25, 500, "#f9d08e"];
 	crossFrame[2] = [0, 250, 500, 25, "#f9d08e"];
@@ -57,8 +59,8 @@ function init() {
 
 	//handle the mouse moving to 
 	canvasFrame.addEventListener('mousemove', function (e) {
-		x = e.clientX;
-		y = e.clientY;
+		let x = e.clientX;
+		let y = e.clientY;
 
 		for (var i = 0; i <= 8; i++) {//increment mark location to be checked
 			//handle the 9 marc locations
@@ -172,9 +174,3 @@ function init() {
 	setInterval(updateLoop, 1000 / 60);
 
 }
-
-
-
-
-
-

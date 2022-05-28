@@ -4,7 +4,8 @@
   "description": "Multiplayer tic tac toe using socket.io and electron",
   "main": "main.js",
   "scripts": {
-    "start": "electron main.js"
+    "start": "electron electron/app.js",
+    "serve": "node server/app.js"
   },
   "author": "Max DeVos",
   "license": "ISC",

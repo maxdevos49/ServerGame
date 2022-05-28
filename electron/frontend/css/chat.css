@@ -1,0 +1,76 @@
+.chat-container {
+    flex-grow: 0;
+    max-width: 15rem;
+}
+
+.chat-history {
+    background-color: rgb(232, 232, 232);
+    flex-grow: 1;
+}
+
+.chat-input-container {
+    flex-grow: 0;
+    min-height: 5rem;
+}
+
+.chat-input-container textarea,
+.chat-input-container button {
+    border: none;
+}
+
+.chat-input-container textarea {
+    resize: none;
+    padding: 0.3rem 0.1rem;
+    height: 4rem;
+    outline: none;
+}
+
+.chat-input-container button {
+    height: 2.5rem;
+    transition: 0.4s;
+}
+
+.chat-input-container button:hover {
+    opacity: 0.6;
+    color: black;
+}
+
+.chat {
+    padding: 0.5rem;
+    border-radius: 0.4rem;
+    margin: 1rem;
+    overflow-wrap: normal;
+    position: relative;
+}
+
+.chat.player1 {
+    background-color: var(--primary-bg-color);
+    color: var(--primary-fg-color);
+    border-bottom-right-radius: 0;
+}
+
+.chat.player2 {
+    background-color: var(--secondary-bg-color);
+    color: var(--secondary-fg-color);
+    border-bottom-left-radius: 0;
+}
+
+.chat::after {
+    content: "";
+    background-color: inherit;
+    position: absolute;
+    width: 1rem;
+    height: 1rem;
+    display: block;
+    z-index: 1000;
+    transform: rotate(45deg);
+    bottom: 0.19rem;
+}
+
+.chat.player2::after {
+    left: -0.4rem;
+}
+
+.chat.player1::after {
+    right: -0.4rem;
+}

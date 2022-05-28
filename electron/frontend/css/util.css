@@ -1,0 +1,19 @@
+.col {
+    display: flex;
+    flex-direction: row;
+}
+
+.row {
+    display: flex;
+    flex-direction: column;
+}
+
+.primary-theme {
+    background-color: var(--primary-bg-color);
+    color: var(--primary-fg-color);
+}
+
+.secondary-theme {
+    background-color: var(--secondary-bg-color);
+    color: var(--secondary-fg-color);
+}

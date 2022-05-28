@@ -1,22 +1,24 @@
-//project ledLight
-//Max DeVos
-//October 3, 2017
+/**
+ * Project codename ledlight
+ * @author Maxwell DeVos
+ * @since October 3, 2017
+ */
 
 console.log('Server Started!!');
 
-socket = require('socket.io');
+const socket = require('socket.io');
+const http = require('http').createServer().listen(8000);
+const io = require('socket.io').listen(http);
 
-playerTurn = "X";
+const gameState = {
+	round: 0,//game = 0
 
-game = 0;
-clientID = 0;
-markTypeInit = "X";
-currentTurn = "True"
-
-
-// Socket setup & pass server
-http = require('http').createServer().listen(8000);
-io = require('socket.io').listen(http);
+	// playerTurn = "X";
+	// ;
+	// clientID = 0;
+	// markTypeInit = "X";
+	// currentTurn = "True"
+}
 
 //start socket operations
 io.on('connection', function (socket) {

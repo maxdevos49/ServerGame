@@ -1,0 +1,8 @@
+.board-container {
+    box-shadow: 0 0 5px 1px rgb(192, 192, 192) inset;
+
+    display: flex;
+    flex-grow: 1;
+    align-items: center;
+    justify-content: center;
+}

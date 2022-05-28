@@ -1,0 +1,41 @@
+.connection-container {
+    text-align: left;
+    height: 2.5rem;
+}
+
+.connection-status {
+    display: inline-block;
+    height: 1.5rem;
+    width: 1.5rem;
+    border-radius: 100%;
+    background-color: red;
+}
+
+.connection-status.connected {
+    background-color: green;
+}
+
+.status-container {
+    flex-grow: 0;
+    padding: 0.4rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.status-container span {
+    vertical-align: middle;
+    display: inline-block;
+}
+
+.server-container {
+    flex-grow: 1;
+    padding: 0.4rem;
+}
+
+.server-container input,
+.server-container button {
+    padding: 0.2rem;
+    vertical-align: middle;
+    display: inline-block;
+}
+
