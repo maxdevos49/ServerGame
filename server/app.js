@@ -4,8 +4,6 @@
  * @since October 3, 2017
  */
 
-console.log('Server Started!!');
-
 const socket = require('socket.io');
 const http = require('http').createServer().listen(8000);
 const io = require('socket.io').listen(http);
