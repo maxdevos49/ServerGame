@@ -8,7 +8,7 @@
 	font-family: "Aldrich";
 	margin: 0;
 	padding: 0;
-	outline: none;
+	/* outline: none; */
 }
 
 :root {
@@ -33,4 +33,16 @@ canvas {
 .main-focus-container {
 	display: flex;
 	flex-grow: 1;
+	position: relative;
+}
+
+.overlay-container {
+	position: absolute;
+	display: flex;
+	background-color: rgba(0, 0, 0, 0.738);
+	width: 100%;
+	height: calc(100% - 2.5rem);
+	color: white;
+	justify-content: center;
+	align-items: center;
 }

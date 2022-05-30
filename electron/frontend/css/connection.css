@@ -15,6 +15,10 @@
     background-color: green;
 }
 
+.connection-status.error {
+    background-color: yellow;
+}
+
 .status-container {
     flex-grow: 0;
     padding: 0.4rem;
@@ -38,4 +42,3 @@
     vertical-align: middle;
     display: inline-block;
 }
-

@@ -5,9 +5,47 @@
  * @since October 3, 2017
  */
 
-document.addEventListener("DOMContentLoaded", main);
+import { setupSocketConnection } from "./socket.js";
+import { connectionController } from "./connectionController.js";
+import { clientChatController } from "./clientChatController.js";
 
 function main() {
+
+	listenForConnect((url, handle) => {
+
+		setupSocketConnection(url, [
+			connectionController,
+			clientChatController(handle),
+		]);
+	});
+}
+document.addEventListener("DOMContentLoaded", main);
+
+
+function listenForConnect(callback) {
+	const $form = document.querySelector("#server-form");
+	if (!$form) {
+		return;
+	}
+
+	$form.addEventListener("submit", (e) => {
+		e.preventDefault()
+
+		const $handle = document.querySelector("#handle");
+		const $server = document.querySelector("#server");
+
+		if (!$handle || !$server) {
+			return;
+		}
+
+		const handle = $handle.value;
+		const serverURL = $server.value;
+
+		callback(serverURL, handle);
+	});
+}
+
+
 	// const canvas = document.getElementById("canvasFrame");
 	// const context = canvas.getContext("2d");
 
@@ -19,7 +57,7 @@ function main() {
 	// const handle = document.getElementById("handle");
 
 
-	// //connect to the server	
+	// //connect to the server
 	// const hostcode = "http://localhost:8000";
 	// const socket = io.connect(hostcode);
 
@@ -58,7 +96,7 @@ function main() {
 
 
 
-	// //handle the mouse moving to 
+	// //handle the mouse moving to
 	// canvasFrame.addEventListener('mousemove', function (e) {
 	// 	let x = e.clientX;
 	// 	let y = e.clientY;
@@ -174,4 +212,4 @@ function main() {
 
 	// setInterval(updateLoop, 1000 / 60);
 
-}
+// }

@@ -6,6 +6,7 @@
 .chat-history {
     background-color: rgb(232, 232, 232);
     flex-grow: 1;
+    overflow-y: scroll;
 }
 
 .chat-input-container {
@@ -38,24 +39,30 @@
 .chat {
     padding: 0.5rem;
     border-radius: 0.4rem;
-    margin: 1rem;
-    overflow-wrap: normal;
+    margin: 0.5rem 1rem;
+    overflow-wrap: break-word;
     position: relative;
+    background-color: var(--secondary-bg-color);
+    color: var(--secondary-fg-color);
 }
 
-.chat.player1 {
-    background-color: var(--primary-bg-color);
-    color: var(--primary-fg-color);
+.chat:not(.info):not(.self) {
     border-bottom-right-radius: 0;
 }
 
-.chat.player2 {
-    background-color: var(--secondary-bg-color);
-    color: var(--secondary-fg-color);
-    border-bottom-left-radius: 0;
+.chat.info {
+    font-size: smaller;
+    padding: 0.3rem;
 }
 
-.chat::after {
+.chat.self {
+    background-color: var(--primary-bg-color);
+    color: var(--primary-fg-color);
+    border-bottom-left-radius: 0;
+
+}
+
+.chat:not(.info)::after {
     content: "";
     background-color: inherit;
     position: absolute;
@@ -67,10 +74,10 @@
     bottom: 0.19rem;
 }
 
-.chat.player2::after {
-    left: -0.4rem;
+.chat:not(.info)::after {
+    right: -0.4rem;
 }
 
-.chat.player1::after {
-    right: -0.4rem;
+.chat.self:not(.info)::after {
+    left: -0.4rem;
 }

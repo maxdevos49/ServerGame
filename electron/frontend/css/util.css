@@ -8,6 +8,10 @@
     flex-direction: column;
 }
 
+.hide {
+    display: none;
+}
+
 .primary-theme {
     background-color: var(--primary-bg-color);
     color: var(--primary-fg-color);

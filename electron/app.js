@@ -13,13 +13,12 @@ const createWindow = () => {
 	});
 
 	win.loadFile("./frontend/index.html");
-	// win.webContents.openDevTools();
 };
 
 app.whenReady().then(() => {
 	createWindow();
 });
 
-app.on('window-all-closed', () => {
-	if (process.platform !== 'darwin') app.quit()
-})
+// app.on('window-all-closed', () => {
+// 	if (process.platform !== 'darwin') app.quit()
+// })

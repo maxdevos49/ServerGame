@@ -10,14 +10,17 @@
 	<link rel="stylesheet" type="text/css" href="./css/chat.css">
 	<link href='https://fonts.googleapis.com/css?family=Aldrich' rel='stylesheet'>
 	<script type="module" src="./js/index.js"></script>
-	<!-- <script type="text/javascript" src="./draw.js"></script> -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.js"></script>
+
 
 </head>
 
 <body>
 	<main class="col">
 		<div class="row main-focus-container">
+			<!-- Loading overlay -->
+			<div class="overlay-container hide">
+				<h1 id="overlay-status">Waiting for other player</h1>
+			</div>
 			<!-- Game board section-->
 			<div class="board-container">
 				<div class="row board primary-theme">
@@ -45,19 +48,19 @@
 					<span>Status:</span>
 					<span class="connection-status"></span>
 				</div>
-				<div class="server-container">
-					<input id="handle" type="text" placeholder="Bob" style="width: 5rem;">
-					<input id="server" type="text" placeholder="192.168.0.1:8080" style="width: 10rem;">
-					<button type="button">Connect</button>
-				</div>
+				<form id="server-form" class="server-container">
+					<input id="handle" type="text" placeholder="User" minlength="3" style="width: 5rem;">
+					<input id="server" type="text" placeholder="http://localhost:3000" style="width: 10rem;">
+					<button id="connect" type="submit">Connect</button>
+				</form>
 			</div>
 		</div>
 		<!-- Chat section-->
 		<div class="row chat-container">
 			<div class="chat-history"></div>
 			<div class="chat-input-container row">
-				<textarea id="chatInput" placeholder="Say something" spellcheck="false"></textarea>
-				<button class="secondary-theme">Send</button>
+				<textarea id="chat-input" placeholder="Say something" spellcheck="false"></textarea>
+				<button id="send-chat" class="secondary-theme">Send</button>
 			</div>
 		</div>
 	</main>
