@@ -6,7 +6,7 @@ function serverChatController(io) {
         };
 
         socket.on("chat/register-handle", (data) => {
-            socket.chatData.handle = data.handle;
+            socket.chatData.handle = data.handle.replace(/<[^>]+>/g, '');
 
             sendInfoChat(io, `${socket.chatData.handle} joined the game`);
         });
