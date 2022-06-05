@@ -7,25 +7,33 @@ import chalk from 'chalk'
 import { isDebug } from "./utility.mjs";
 
 function logController(io) {
+
     const logger = (socketId) => {
-        return (event, message = "") => {
-            console.log(`${chalk.blue(socketId)} :: ${chalk.green(event)}${message ? ` :: ${message}` : ""}`)
-        }
+        return (event, incoming = true, message = "",) => console.log(`${chalk.blue(socketId)} :: ${incoming ? `${chalk.yellow("Incoming")}` : `${chalk.red("Outgoing")}`} :: ${chalk.green(event)}${message ? ` :: ${message}` : ""}`);
     }
 
     io.on("connection", (socket) => {
         const log = logger(socket.id);
-        log("connection");
+        log("connection", true);
+
         socket.onAny((eventName, info) => {
             if (isDebug()) {
-                log(eventName, JSON.stringify(info))
+                log(eventName, true, JSON.stringify(info))
             } else {
-                log(eventName)
+                log(eventName, true)
+            }
+        });
+
+        socket.onAnyOutgoing((eventName, info) => {
+            if (isDebug()) {
+                log(eventName, false, JSON.stringify(info))
+            } else {
+                log(eventName, false)
             }
         });
 
         socket.on("disconnect", () => {
-            log("disconnect");
+            log("disconnect", true);
         });
     });
 }

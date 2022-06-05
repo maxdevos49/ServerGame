@@ -21,13 +21,24 @@
 }
 
 .slot {
+    position: relative;
     display: flex;
     flex-grow: 1;
     background-color: white;
     transition: 0.4s;
 }
 
-.slot:hover {
+.slot::after {
+    position: absolute;
+    content: attr(title);
+    color: black;
+    background-color: transparent;
+    font-size: 3rem;
+    left: calc(50% - 1.1rem);
+    top: calc(50% - 1rem);
+}
+
+.slot:not([title="X"]):not([title="O"]):hover {
     display: flex;
     flex-grow: 1;
     background-color: rgb(231, 231, 231);

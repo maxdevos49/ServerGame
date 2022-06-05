@@ -1,8 +1,8 @@
 
-const HORIZONTAL_MASK = 0b111000000;
-const VERTICAL_MASK = 0b100100100;
-const DIAGONAL1_MASK = 0b100010001;
-const DIAGONAL2_MASK = 0b001010100;
+const HORIZONTAL_WIN_MASK = 0b111000000;
+const VERTICAL_WIN_MASK = 0b100100100;
+const DIAGONAL1_WIN_MASK = 0b100010001;
+const DIAGONAL2_WIN_MASK = 0b001010100;
 const MARK_MASK = 0b100000000;
 
 function tictactoeGame() {
@@ -30,20 +30,20 @@ function tictactoeGame() {
         isWon() {
             const board = currentPlayerBoard();
 
-            if (checkMask(board, HORIZONTAL_MASK)
-                || checkMask(board, HORIZONTAL_MASK >>> 3)
-                || checkMask(board, HORIZONTAL_MASK >>> 6)) {
+            if (checkMask(board, HORIZONTAL_WIN_MASK)
+                || checkMask(board, HORIZONTAL_WIN_MASK >>> 3)
+                || checkMask(board, HORIZONTAL_WIN_MASK >>> 6)) {
                 return true;
             }
 
-            if (checkMask(board, VERTICAL_MASK)
-                || checkMask(board, VERTICAL_MASK >>> 1)
-                || checkMask(board, VERTICAL_MASK >>> 2)) {
+            if (checkMask(board, VERTICAL_WIN_MASK)
+                || checkMask(board, VERTICAL_WIN_MASK >>> 1)
+                || checkMask(board, VERTICAL_WIN_MASK >>> 2)) {
                 return true;
             }
 
-            if (checkMask(board, DIAGONAL1_MASK)
-                || checkMask(board, DIAGONAL2_MASK)) {
+            if (checkMask(board, DIAGONAL1_WIN_MASK)
+                || checkMask(board, DIAGONAL2_WIN_MASK)) {
                 return true;
             }
 
@@ -55,17 +55,13 @@ function tictactoeGame() {
         data() {
             const board = ["", "", "", "", "", "", "", "", ""];
 
-            const SPLIT_MASK = 0b1000000000;
-
-            dec2bin((xBoard | SPLIT_MASK))
-                .split("")
-                .slice(1, 10)
-                .forEach((value, index) => (value === "1") ? board[index] = "X" : "");
-
-            dec2bin((oBoard | SPLIT_MASK))
-                .split("")
-                .slice(1, 10)
-                .forEach((value, index) => (value === "1") ? board[index] = "O" : "");
+            for (let i = 0; i < 9; i++) {
+                if (checkMask(xBoard, MARK_MASK >>> i)) {
+                    board[i] = "X";
+                } else if (checkMask(oBoard, MARK_MASK >>> i)) {
+                    board[i] = "O";
+                }
+            }
 
             return board;
         }
@@ -77,15 +73,13 @@ function checkMask(board, mask) {
 }
 
 function mark(board, col, row) {
-    return (MARK_MASK >>> col) >>> (row * 3) | board;
+    const shift = col + (row * 3);
+    return (MARK_MASK >>> shift) | board;
 }
 
 function isMarked(board, col, row) {
-    return Boolean(((MARK_MASK >>> col) >>> (row * 3)) & board);
-}
-
-function dec2bin(dec) {
-    return (dec >>> 0).toString(2);
+    const shift = col + (row * 3)
+    return Boolean((MARK_MASK >>> shift) & board);
 }
 
 const __TEST_ONLY__ = {
