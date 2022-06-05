@@ -1,11 +1,15 @@
-
-function serverChatController(io) {
+/**
+ * Project codename ledlight
+ * @author Maxwell DeVos
+ * @since June 4, 2022
+ */
+function chatController(io) {
     io.on("connection", (socket) => {
         socket.chatData = {
             handle: "User",
         };
 
-        socket.on("chat/register-handle", (data) => {
+        socket.once("chat/register-handle", (data) => {
             socket.chatData.handle = data.handle.replace(/<[^>]+>/g, '');
 
             sendInfoChat(io, `${socket.chatData.handle} joined the game`);
@@ -30,4 +34,4 @@ function sendInfoChat(io, message) {
     io.emit("chat/receive", { message });
 }
 
-export { serverChatController };
+export { chatController };

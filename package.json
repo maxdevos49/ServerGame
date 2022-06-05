@@ -5,13 +5,18 @@
   "main": "main.js",
   "scripts": {
     "start": "electron electron/app.js",
-    "serve": "node server/app.mjs"
+    "serve": "node -r dotenv/config server/app.mjs",
+    "test": "mocha ./test/*.test.mjs"
   },
   "author": "Max DeVos",
   "license": "ISC",
   "dependencies": {
     "chalk": "^5.0.1",
+    "dotenv": "^16.0.1",
     "electron": "^18.2.4",
     "socket.io": "^4.5.1"
+  },
+  "devDependencies": {
+    "mocha": "^10.0.0"
   }
 }

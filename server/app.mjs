@@ -5,36 +5,23 @@
  */
 import { Server } from "socket.io";
 
-import { serverChatController } from "./serverChatController.mjs";
+import { logController } from "./logController.mjs";
+import { chatController } from "./chatController.mjs";
 
-
+/**
+ * Entry point.
+ */
 (function main() {
-
-	const controllers = [
-		logController,
-		serverChatController
-	];
-
-	createSocketServer(3000, controllers);
-
-})();
-
-function createSocketServer(port = 3000, controllers = []) {
+	const port = process.env.PORT;
 	const io = new Server(port, {});
 
-	for (const controller of controllers) {
+	for (const controller of [logController, chatController]) {
 		controller(io);
 	}
 
-	console.log("Socket server running on http://localhost:3000");
-}
+	console.log(`Socket server running on http://localhost:${port}`);
+})();
 
-function logController(io) {
-	io.on("connection", (socket) => {
-		console.log(socket.id + " connected");
-		socket.on("disconnect", () => console.log(socket.id + " disconnected"));
-	});
-}
 
 // const socket = require('socket.io');
 // const http = require('http').createServer().listen(8000);
