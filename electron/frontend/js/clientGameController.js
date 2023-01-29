@@ -15,7 +15,6 @@ function clientGameController(socket) {
     });
 
     socket.on("tictactoe/update", (data) => {
-        console.log(data);
         const $slots = document.querySelectorAll(".slot");
 
         $slots.forEach($el => {
